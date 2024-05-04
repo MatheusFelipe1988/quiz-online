@@ -1,3 +1,4 @@
+import { Button } from 'bootstrap'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 
@@ -98,6 +99,136 @@ const AddQuestion = () => {
           <div className='card'>
             <div className='card-header'>
               <h5 className='card-title'>Add New Question</h5>
+            </div>
+            <div className='card-body'>
+              <form onSubmit={handleSubmit} className='p-2'>
+                <div className='mb-3'>
+                  <label htmlFor='subject' className='form-label text-info'>Select Subject</label>
+                  <select 
+                  id='subject' 
+                  value={subject}
+                  onChange={(e) = setSubject(e.target.value)}
+                  className='form-control'>
+                    <option value="">Select subject</option>
+                    <option value={"New"}>Add New</option>
+                    {subjectOptions.map((option) => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
+                  </select>
+                </div>
+                {subject === "New" && (
+                  <div className='mb-3'>
+                    <label htmlFor='new-subject' className='form-label text-info'>
+                      Add New Subject
+                    </label>
+                    <input 
+                      type='text'
+                      id='new-subject'
+                      value={newSubject}
+                      onChange={(event) => setNewSubject(event.target.value)}
+                      className='form-control'
+                    />
+                    <button
+                      type='button'
+                      onClick={handleAddSubject}
+                      className='btn btn-outline-primary mt-2'
+                    >Add Subject
+                    </button>
+                  </div>
+                )}
+                <div className='mb-3'>
+                  <label htmlFor='question-text' className='form-label text-info'>
+                    Question
+                  </label>
+                  <textarea
+                    className='form-control'
+                    rows={4}
+                    value={question}
+                    onChange={(e) => setQuestionText(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className='mb-3'>
+                  <label htmlFor='question-type' className='form-label text-info'>Question Type</label>
+                  <select 
+                    id='question-type'
+                    value={questionType}
+                    onChange={(event) => setQuestionType(event.target.value)}
+                    className='form-control'
+                  ><option value="single">Single Answer</option>
+                  <option value="multiple">Multiple Answer</option>
+                  </select>
+                </div>
+                <div className='mb-3'>
+                  <label htmlFor='choices' className='form-label text-primary'>Choices</label>
+                  {choices.concat.map((choice, index) => (
+                    <div key={index} className='input-group mb3'>
+                      <input
+                      type='text'
+                      value={choice}
+                      onChange={(e) => handleChoiceChange(e.target.value)}
+                      />
+                      <button
+                        type='button'
+                        onClick={() => handleRemoveChoice(index)}
+                        className='btn btn-outline-danger'
+                      >
+                      Remove
+                      </button>
+                    </div>
+                  ))}
+                  <button 
+                    type='button'
+                    onClick={handleAddChoice}
+                    className='btn btn-outline-primary'
+                  >Add Choice</button>
+                </div>
+                {questionType === "single" && (
+                  <div className='mb-3'>
+                    <label htmlFor='answer' className='form-label text-sucess'>Correct Answer</label>
+                    <input
+                      type='text'
+                      className='form-control'
+                      id='answer'
+                      value={correctAnswers[0]}
+                      onChange={(e) => handleCorrectAnswerChoice(0, e.target.value)}
+                    />
+                  </div>
+                )}
+                {questionType === "multiple" && (
+                  <div className='mb-3'>
+                    <label htmlFor='answer' className='form-label text-sucess'>Correct Answer</label>
+                    {correctAnswers.map((answer, index) => (
+                      <div key={index} className='d-flex mb-2'>
+                        <input
+                          type='text'
+                          className='form-control me-2'
+                          value={answer}
+                          onChange={(e) => handleAddCorrectAnswer(index, e.target.value)}
+                        />
+                        {index > 0 && (
+                          <button
+                            type='button'
+                            className='btn btn-danger'
+                            onClick={() => handleRemoveCorrectAnswer(index)}
+                            >Remove</button>
+                        )}
+                      </div>
+                    ))}
+                    <button 
+                      type='button'
+                      className='btn btn-outline-info'
+                      onClick={handleAddCorrectAnswer}
+                    >Add Correct Answer</button>
+                  </div>
+                )}
+                {!correctAnswers.length && <p>Por favor entre com uma resposta correta</p>}
+                <div className='btn-group'>
+                  <button type='submit' className='btn btn-outline-sucess mr-2'>Save Question</button>
+                </div>
+                <link to={"all-quizzies"} className='btn btn-outline-primary ml-2' >
+                  Back to existing questions
+                </link>
+              </form>
             </div>
           </div>
         </div>
