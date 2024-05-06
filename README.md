@@ -1,2 +1,14 @@
 # quiz-online
-Questionário online Full-stack
+Aplicação 
+
+## Back-End
+
+#### Languagens Back-End
+- Java
+- Springboot
+- MySQL
+- Swagger
+
+## Front-end
+- JavaScript
+- ReactJS
