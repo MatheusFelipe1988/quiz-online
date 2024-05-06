@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import {getQuestionById, updateQuestion} from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/src/utils/QuizService'
+import { getQuestionById, updateQuestion } from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/src/utils/QuizService'
 import { useNavigate, useParams } from 'react-router-dom';
 
 const UpdateQuestion = () => {
 
-    const {id} = useParams()
+    const { id } = useParams()
     const navigate = useNavigate()
     const [question, setQuestion] = useState("")
     const [choices, setChoices] = useState([""])
     const [correctAnswer, setCorrectAnswer] = useState("")
     const [isLoading, setIsLoading] = useState(true)
 
-    useEffect (() => {
+    useEffect(() => {
         fetchQuestion()
     }, [])
 
     const fetchQuestion = async () => {
-        try{
+        try {
             const questionToUpdate = await getQuestionById(id)
-            if(questionToUpdate) {
+            if (questionToUpdate) {
                 setQuestion(questionToUpdate.question)
                 setChoices(questionToUpdate.choices)
                 setCorrectAnswer(questionToUpdate.correctAnswer)
             }
             setIsLoading(false)
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
@@ -45,28 +45,46 @@ const UpdateQuestion = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault()
-        try{
+        try {
             const updatedQuestion = {
                 question,
                 choices,
                 correctAnswer: correctAnswer
-                .toString()
-                .split(",")
-                .map((answer) => answer.trim())
+                    .toString()
+                    .split(",")
+                    .map((answer) => answer.trim())
             }
             await updateQuestion(id, updatedQuestion)
             navigate("all-quizzies")
-        }catch(error){
+        } catch (error) {
             console.error(error);
         }
     }
-    if(isLoading){
+    if (isLoading) {
         return <p>Loading...</p>
     }
 
-    return ( 
-    <div></div> 
+    return (
+        <div className='container'>
+            <h4 className='mt-5' style={{color: "GrayText"}}>
+                Update Quiz Question
+            </h4>
+            <div className='col-8'>
+                <form onSubmit={handleUpdate}>
+                    <div className='form-control'>
+                        <label className='text-info'>Question:</label>
+                        <textarea className='form-control'
+                        rows={4}
+                        value={question}
+                        onChange={handleQuestionChange}></textarea>
+                    </div>
+                    <div className='form-control'>
+                        <label className='text-info'>Choice:</label>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 }
- 
+
 export default UpdateQuestion;
