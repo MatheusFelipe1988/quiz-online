@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getQuestionById, updateQuestion } from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/src/utils/QuizService'
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const UpdateQuestion = () => {
 
@@ -66,7 +66,7 @@ const UpdateQuestion = () => {
 
     return (
         <div className='container'>
-            <h4 className='mt-5' style={{color: "GrayText"}}>
+            <h4 className='mt-5' style={{ color: "GrayText" }}>
                 Update Quiz Question
             </h4>
             <div className='col-8'>
@@ -74,12 +74,27 @@ const UpdateQuestion = () => {
                     <div className='form-control'>
                         <label className='text-info'>Question:</label>
                         <textarea className='form-control'
-                        rows={4}
-                        value={question}
-                        onChange={handleQuestionChange}></textarea>
+                            rows={4}
+                            value={question}
+                            onChange={handleQuestionChange}></textarea>
                     </div>
                     <div className='form-control'>
-                        <label className='text-info'>Choice:</label>
+                        <label className='text-info'>Choices:</label>
+                        {choices.map((choice, index) => (
+                            <input key={index}
+                                type='text'
+                                className='form-control mb-4'
+                                value={choice}
+                                onChange={(e) => handleChoiceChange(e, index)} />
+                        ))}
+                    </div>
+                    <div className='btn-group'>
+                        <button type='submit' className='btn btn-sm btn-outline-warning'>
+                            Update Question
+                        </button>
+                        <Link to={"/all-quizzies"} className='btn btn-outline-primary ml-2'>
+                            Back to all questions
+                        </Link>
                     </div>
                 </form>
             </div>
