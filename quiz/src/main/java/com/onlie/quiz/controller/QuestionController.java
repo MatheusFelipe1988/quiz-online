@@ -2,6 +2,9 @@ package com.onlie.quiz.controller;
 
 import com.onlie.quiz.domain.Question;
 import com.onlie.quiz.service.IQuestaoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -16,20 +19,37 @@ import java.util.*;
 @RequestMapping("/api/quizzies")
 @RequiredArgsConstructor
 public class QuestionController {
+
     private final IQuestaoService questaoService;
 
+
+    @Operation(summary = "Criando nova quiz", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = " um novo quiz criado for OK"),
+            @ApiResponse(responseCode = "500", description = "Erro na criação do quiz")
+    })
     @PostMapping("create-new-question")
     public ResponseEntity<Question> createQuestao(@Valid @RequestBody Question question){
         Question createdQuestion = questaoService.create(question);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuestion);
     }
 
+    @Operation(summary = "buscando todos os questionarios", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "listando todos o questionario for OK"),
+            @ApiResponse(responseCode = "500", description = "quando der erro na hora de listar os questionarios")
+    })
     @GetMapping("/all-questions")
     public ResponseEntity<List<Question>> getAllQuestions(){
         List<Question> questions = questaoService.getAllQuestions();
         return ResponseEntity.ok(questions);
     }
 
+    @Operation(summary = "buscando um quiz", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Busca por ID for OK"),
+            @ApiResponse(responseCode = "500", description = "erro causado por errar o ID")
+    })
     @GetMapping("/question/{id}")
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         Optional<Question> theQuestao = questaoService.getQuestionById(id);
@@ -40,6 +60,11 @@ public class QuestionController {
         }
     }
 
+    @Operation(summary = "atualizando um questionario", method = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "a atualização for bem sucedida"),
+            @ApiResponse(responseCode = "500", description = "erro na hora de atualizar um quiz")
+    })
     @PutMapping("/question/{id}/update")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question)
             throws ChangeSetPersister.NotFoundException {
@@ -47,21 +72,38 @@ public class QuestionController {
         return ResponseEntity.ok(updatedQuestion);
     }
 
+    @Operation(summary = "deletando um questionarior", method = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "a remoção for OK"),
+            @ApiResponse(responseCode = "500", description = "Erro ao escolher o quiz")
+    })
     @DeleteMapping("/question/{id}/delete")
     public ResponseEntity<Void> deleteQuestion (@PathVariable Long id){
         questaoService.deleteQuestion(id);
         return ResponseEntity.noContent().build();
     }
 
+
+    @Operation(summary = "listando todas as escolhasr", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "listagem das escolhas for OK"),
+            @ApiResponse(responseCode = "500", description = "falha ao listar escolhas")
+    })
     @GetMapping("/subjects")
     public ResponseEntity<List<String>> getAllSubjects() {
         List<String> subject = questaoService.getAllSubjects();
         return ResponseEntity.ok(subject);
     }
+
+    @Operation(summary = "listando quiz do usuario", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "listagem for bem sucedida"),
+            @ApiResponse(responseCode = "500", description = "erro ao buscar o integer")
+    })
     @GetMapping("/quiz/fetch-question-for-user")
     public ResponseEntity<List<Question>> getQuestionsForUser(@RequestParam Integer numberOfQuestions, @RequestParam
                                                               String subject){
-        List<Question> allQuestions = questaoService.getAllQuestions();
+        List<Question> allQuestions = questaoService.getAllQuestions(numberOfQuestions, subject);
 
         List<Question> mutableQuestions = new ArrayList<>(allQuestions);
         Collections.shuffle(mutableQuestions);

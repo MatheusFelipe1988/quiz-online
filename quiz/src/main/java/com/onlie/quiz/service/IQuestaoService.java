@@ -21,4 +21,6 @@ public interface IQuestaoService {
     void deleteQuestion(Long id);
 
     List<Question> getQuestionForUser(Integer numOfQuestions,String subject);
+
+    List<Question> getAllQuestions(Integer numberOfQuestions, String subject);
 }
