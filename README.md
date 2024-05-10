@@ -1,5 +1,5 @@
 # quiz-online
-Aplicação 
+Uma aplicação em full-stack que possui métodos para construir questionários de variados modos para usuários assim realizarem desde testes de conhecimento a formularios  
 
 ## Back-End
 
