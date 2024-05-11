@@ -103,7 +103,7 @@ public class QuestionController {
     @GetMapping("/quiz/fetch-question-for-user")
     public ResponseEntity<List<Question>> getQuestionsForUser(@RequestParam Integer numberOfQuestions, @RequestParam
                                                               String subject){
-        List<Question> allQuestions = questaoService.getAllQuestions(numberOfQuestions, subject);
+        List<Question> allQuestions = questaoService.getQuestionForUser(numberOfQuestions, subject);
 
         List<Question> mutableQuestions = new ArrayList<>(allQuestions);
         Collections.shuffle(mutableQuestions);

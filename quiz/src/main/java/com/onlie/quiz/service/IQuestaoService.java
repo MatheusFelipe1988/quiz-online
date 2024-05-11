@@ -22,5 +22,4 @@ public interface IQuestaoService {
 
     List<Question> getQuestionForUser(Integer numOfQuestions,String subject);
 
-    List<Question> getAllQuestions(Integer numberOfQuestions, String subject);
 }

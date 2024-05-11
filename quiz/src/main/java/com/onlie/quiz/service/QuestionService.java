@@ -62,4 +62,5 @@ public class QuestionService implements IQuestaoService {
         Pageable pageable = PageRequest.of(0, numOfQuestions);
         return repository.findBySubject(subject, pageable).getContent();
     }
+
 }
