@@ -43,6 +43,45 @@ const Quiz = () => {
         })
     }
 
+    const isChecked = (questionId, choice) => {
+        const selectedAnswer = selectedAnswers.find((answer) => answer.id === questionId)
+        if (!selectedAnswer) {
+            return false
+        } if (Array.isArray(selectedAnswer.answer)) {
+            return selectedAnswer.answer.includes(choice.charAt(0))
+        }
+        return selectedAnswer.answer === choice.charAt(0)
+    }
+
+    const handleCheckBoxChange = (questionId, choice) => {
+        setSelectedAnswers((prevIndex) => {
+            const existingAnswerIndex = prevIndex.findIndex((answerObj) => answerObj.id === questionId)
+            const selectedAnswer = Array.isArray(choice)
+                ? choice.map((c) => c.charAt(9))
+                : choice.charAt(0)
+
+            if (existingAnswerIndex !== -1) {
+                const updatedAnswers = [...prevIndex]
+                const existingAnswer = updatedAnswers[existingAnswerIndex].answer
+                let newAnswer
+
+                if (Array.isArray(existingAnswer)) {
+                    newAnswer = existingAnswer.includes(selectedAnswer)
+                        ? existingAnswer.filter((a) => a !== selectedAnswer)
+                        : [...existingAnswer, selectedAnswer]
+                } else {
+                    newAnswer = [existingAnswer, selectedAnswer]
+                }
+                updatedAnswers[existingAnswer] = { id: questionId, answer: newAnswer }
+                console.log(updatedAnswers)
+                return updatedAnswers
+            } else {
+                const newAnswer = { id: questionId, answer: [selectedAnswer] }
+                return [...prevIndex, newAnswer]
+            }
+        })
+    }
+
     const handleSubmit = () => {
         let scores = 0;
         quizQuestion.forEach((question) => {
@@ -82,7 +121,32 @@ const Quiz = () => {
         }
     }
 
-    return (<div>Hello</div>);
+    return (<div className='p-5'>
+        <h3 className='text-info'>Question {quizQuestion.length > 0 ? currentQuestionIndex + 1 : 0} of {quizQuestion.length}</h3>
+        <h4 className='mb-4'>
+            <pre>{quizQuestion[currentQuestionIndex]?.question}</pre>
+        </h4>
+        <AnswerOption
+            question={quizQuestion[currentQuestionIndex]}
+            isChecked={isChecked}
+            handleAnswerChange={handleAnswerChange}
+            handleCheckBoxChange={handleCheckBoxChange}
+        />
+        <div className='mt-4'>
+            <button
+                className='btn btn-sm btn-primary me-2'
+                onClick={handlePreviousQuestion}
+                disabled={currentQuestionIndex === 0}
+            >Previous Question</button>
+            <button className={`btn btn-sm btn-info ${currentQuestionIndex === quizQuestion.length - 1 && "btn btn-sm btn-warning"}`}
+                onClick={handleNextQuestion}
+                disabled={
+                    !selectedAnswers.find((answer) =>
+                        answer.id === quizQuestion[currentQuestionIndex]?.id || answer.answer.length > 0)
+                }>{currentQuestionIndex === quizQuestion.length - 1 ? "Submit quiz" : "Next Question"}</button>
+        </div>
+    </div>
+    )
 }
 
 export default Quiz;
