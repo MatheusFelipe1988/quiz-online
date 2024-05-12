@@ -16,7 +16,7 @@ import java.util.*;
 
 @RestController
 @CrossOrigin("http://localhost:5173")
-@RequestMapping("/api/quizzies")
+@RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -28,7 +28,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = " um novo quiz criado for OK"),
             @ApiResponse(responseCode = "500", description = "Erro na criação do quiz")
     })
-    @PostMapping("create-new-question")
+    @PostMapping("/create-new-question")
     public ResponseEntity<Question> createQuestao(@Valid @RequestBody Question question){
         Question createdQuestion = questaoService.create(question);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuestion);
