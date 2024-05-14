@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import {fetchQuizforUser} from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/utils/QuizService'
+import AnswerOption from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/utils/AnswerOption'
 
 const Quiz = () => {
 
@@ -7,7 +9,7 @@ const Quiz = () => {
         { id: "", correctAnswers: "", question: "", questionType: "" }
     ])
     const [selectedAnswers, setSelectedAnswers] = useState([{ id: "", answer: "" }])
-    const [currentQuestionIndex, setCurrentQuestion] = useState(0)
+    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
     const [totalScores, setTotalScores] = useState(0)
     const location = useLocation()
     const navigate = useNavigate()
@@ -33,7 +35,7 @@ const Quiz = () => {
 
             if (existingAnswerIndex !== -1) {
                 const updatedAnswers = [...prevAnswers]
-                updatedAnswers[existingAnswerIndex = { id: questionId, answer: selectedAnswer }]
+                updatedAnswers[existingAnswerIndex] = { id: questionId, answer: selectedAnswer }
                 console.log(updatedAnswers)
                 return updatedAnswers
             } else {
@@ -54,14 +56,14 @@ const Quiz = () => {
     }
 
     const handleCheckBoxChange = (questionId, choice) => {
-        setSelectedAnswers((prevIndex) => {
-            const existingAnswerIndex = prevIndex.findIndex((answerObj) => answerObj.id === questionId)
+        setSelectedAnswers((prevAnswers) => {
+            const existingAnswerIndex = prevAnswers.findIndex((answerObj) => answerObj.id === questionId)
             const selectedAnswer = Array.isArray(choice)
-                ? choice.map((c) => c.charAt(9))
+                ? choice.map((c) => c.charAt(0))
                 : choice.charAt(0)
 
             if (existingAnswerIndex !== -1) {
-                const updatedAnswers = [...prevIndex]
+                const updatedAnswers = [...prevAnswers]
                 const existingAnswer = updatedAnswers[existingAnswerIndex].answer
                 let newAnswer
 
@@ -72,12 +74,12 @@ const Quiz = () => {
                 } else {
                     newAnswer = [existingAnswer, selectedAnswer]
                 }
-                updatedAnswers[existingAnswer] = { id: questionId, answer: newAnswer }
+                updatedAnswers[existingAnswerIndex] = { id: questionId, answer: newAnswer }
                 console.log(updatedAnswers)
                 return updatedAnswers
             } else {
                 const newAnswer = { id: questionId, answer: [selectedAnswer] }
-                return [...prevIndex, newAnswer]
+                return [...prevAnswers, newAnswer]
             }
         })
     }
@@ -102,13 +104,13 @@ const Quiz = () => {
         });
         setTotalScores(scores);
         setSelectedAnswers([]);
-        setCurrentQuestion(0);
+        setCurrentQuestionIndex(0);
         navigate("/quiz-result", { state: { quizQuestion, totalScores: scores } });
     };
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < quizQuestion.length - 1) {
-            setCurrentQuestion((prevIndex) => prevIndex + 1)
+            setCurrentQuestionIndex((prevIndex) => prevIndex + 1)
             console.log(selectedAnswers)
         } else {
             handleSubmit()
@@ -117,11 +119,12 @@ const Quiz = () => {
 
     handlePreviousQuestion = () => {
         if (currentQuestionIndex > 0) {
-            setCurrentQuestion((prevIndex) => prevIndex - 1)
+            setCurrentQuestionIndex((prevIndex) => prevIndex - 1)
         }
     }
 
-    return (<div className='p-5'>
+    return (
+    <div className='p-5'>
         <h3 className='text-info'>Question {quizQuestion.length > 0 ? currentQuestionIndex + 1 : 0} of {quizQuestion.length}</h3>
         <h4 className='mb-4'>
             <pre>{quizQuestion[currentQuestionIndex]?.question}</pre>
@@ -138,7 +141,8 @@ const Quiz = () => {
                 onClick={handlePreviousQuestion}
                 disabled={currentQuestionIndex === 0}
             >Previous Question</button>
-            <button className={`btn btn-sm btn-info ${currentQuestionIndex === quizQuestion.length - 1 && "btn btn-sm btn-warning"}`}
+            <button className={`btn btn-sm btn-info 
+            ${currentQuestionIndex === quizQuestion.length - 1 && "btn btn-sm btn-warning"}`}
                 onClick={handleNextQuestion}
                 disabled={
                     !selectedAnswers.find((answer) =>

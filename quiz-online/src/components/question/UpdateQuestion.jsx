@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getQuestionById, updateQuestion } from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/src/utils/QuizService'
+import { getQuestionById, updateQuestion } from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/utils/QuizService'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const UpdateQuestion = () => {
@@ -55,7 +55,7 @@ const UpdateQuestion = () => {
                     .map((answer) => answer.trim())
             }
             await updateQuestion(id, updatedQuestion)
-            navigate("all-quizzies")
+            navigate("all-quizzes")
         } catch (error) {
             console.error(error);
         }
@@ -71,14 +71,14 @@ const UpdateQuestion = () => {
             </h4>
             <div className='col-8'>
                 <form onSubmit={handleUpdate}>
-                    <div className='form-control'>
+                    <div className='form-group'>
                         <label className='text-info'>Question:</label>
                         <textarea className='form-control'
                             rows={4}
                             value={question}
                             onChange={handleQuestionChange}></textarea>
                     </div>
-                    <div className='form-control'>
+                    <div className='form-group'>
                         <label className='text-info'>Choices:</label>
                         {choices.map((choice, index) => (
                             <input key={index}
@@ -88,11 +88,20 @@ const UpdateQuestion = () => {
                                 onChange={(e) => handleChoiceChange(e, index)} />
                         ))}
                     </div>
+                    <div className='form-group'>
+                        <label className='text-info'>Correct Answer(s):</label>
+                        <input
+                            type='text'
+                            className='form-control mb-4'
+                            value={correctAnswer}
+                            onChange={handleCorrectAnswerChange}
+                        />
+                    </div>
                     <div className='btn-group'>
                         <button type='submit' className='btn btn-sm btn-outline-warning'>
                             Update Question
                         </button>
-                        <Link to={"/all-quizzies"} className='btn btn-outline-primary ml-2'>
+                        <Link to={"/all-quizzes"} className='btn btn-outline-primary ml-2'>
                             Back to all questions
                         </Link>
                     </div>

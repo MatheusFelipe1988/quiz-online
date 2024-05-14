@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom"
-import { getSubjects } from '../../utils/QuizService'
+import { getSubject } from '/Users/mathe/Trabalhos/Java/quiz-online/quiz-online/utils/QuizService'
 
 const QuizStepper = () => {
 
@@ -16,7 +16,7 @@ const QuizStepper = () => {
 
     const fetchSubjectData = async () => {
         try {
-            const subjectsData = await getSubjects()
+            const subjectsData = await getSubject()
             setSubjects(subjectsData)
         } catch (error) {
             console.error(error);
@@ -52,14 +52,14 @@ const QuizStepper = () => {
             case 1:
                 return (
                     <div>
-                        <h3 className='text-info mb-3'>I qant to take a quiz on:</h3>
+                        <h3 className='text-info mb-2'>I want to take a quiz on:</h3>
                         <select className='form-select'
                             value={selectedSubject}
                             onChange={handleSubjectsChange}
                         >
                             <option value="">Select a subject</option>
-                            {subjects.map((subjects) => (
-                                <option key={subjects} value={subjects}>{subjects}</option>
+                            {subjects.map((subject) => (
+                                <option key={subject} value={subject}>{subject}</option>
                             ))}
                         </select>
                     </div>
@@ -102,7 +102,6 @@ const QuizStepper = () => {
             </div>
         )
     }
-
     return (
         <section className='mt-5'>
             <h3 style={{ color: 'GrayText' }} className='mb-4'>Welcome to Quiz Online</h3>
@@ -118,13 +117,17 @@ const QuizStepper = () => {
                         )}
                         {currentStep < 3 && (
                             <button
+                                className='btn btn-primary'
+                                onClick={handleNext}
                                 disabled={
                                     (currentStep === 1 && !selectedSubject) ||
                                     (currentStep === 2 && !selectedNumQuestions)
                                 }>Next</button>
                         )}
                         {currentStep === 3 && (
-                            <button className='btn btn-sucess' onClick={handleNext}>Start Quiz</button>
+                            <button className='btn btn-sucess' 
+                            onClick={handleNext}
+                            >Start Quiz</button>
                         )}
                     </div>
                 </div>

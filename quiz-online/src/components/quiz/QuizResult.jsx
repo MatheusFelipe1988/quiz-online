@@ -11,7 +11,8 @@ const QuizResult = () => {
         alert("Oops! this functionality was not implemented!!!")
     }
 
-    return (<section>
+    return (
+    <section className='container mt-5'>
         <h3>Your Quiz Result Summary</h3>
         <hr />
         <h5 className='text-info'>
