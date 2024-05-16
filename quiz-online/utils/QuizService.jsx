@@ -1,72 +1,74 @@
-import axios from "axios";
+import axios from "axios"
 
 export const api = axios.create({
-  URL: "http://localhost:9192/api/quizzes"
-});
+	baseURL: "http://localhost:9192/api/quizzes"
+})
 
-export const createQuestion = async(quizQustion) => {
+export const createQuestion = async(quizQustion) =>{
   try {
-    const response = await api.post("/create-new-question", quizQustion);
-    return response.data;
+    const response = await api.post("/create-new-question", quizQustion)
+    return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
 
-export const getAllQuestion = async () => {
+export const getAllQuestions = async() =>{
   try {
-    const response = await api.get("/all-questions");
-    return response.data;
+    const response = await api.get("/all-questions")
+    return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
     return []
   }
 }
 
-export const fetchQuizforUser = async (number, subject) => {
+export const fetchQuizForUser = async(number, subject) =>{
   try {
     const response = await api.get(
-      `/quiz/fetch-question-for-user?numOfQuestions=${number}&subject=${subject}`
-    )
-    return response.data;
+			`/quiz/fetch-questions-for-user?numOfQuestions=${number}&subject=${subject}`
+		)
+    return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
     return []
   }
 }
 
-export const getSubject = async () => {
+export const getSubjects = async() =>{
   try {
-    const response = await api.get("/subjects");
-    return response.data;
+    const response = await api.get("/subjects")
+    return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
+
   }
 }
 
-export const updateQuestion = async (id, question) => {
+export const updateQuestion = async(id, question) =>{
   try {
-    const response = await api.put(`question/${id}/update`, question);
-    return response.data;
+    const response = await api.put(`/question/${id}/update`, question)
+    return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
+
   }
 }
 
-export const getQuestionById = async (id) => {
+export const getQuestionById = async(id) =>{
   try {
-    const response = await api.get(`/question/${id}`);
-    return response.data;
+    const response = await api.get(`/question/${id}`)
+		return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
 
-export const deleteQuestion = async (id) => {
+export const deleteQuestion = async(id) =>{
   try {
-    const response = await api.delete(`/question/${id}/delete`);
-    return response.data;
+    const response = await api.delete(`/question/${id}/delete`)
+		return response.data
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
 }
