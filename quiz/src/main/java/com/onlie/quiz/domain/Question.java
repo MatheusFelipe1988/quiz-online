@@ -9,7 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "Question")
 @Entity
 public class Question {
 
@@ -18,7 +17,7 @@ public class Question {
     private Long id;
 
     @NotBlank
-    private String questao;
+    private String question;
 
     @NotBlank
     private String questionType;
@@ -26,11 +25,9 @@ public class Question {
     @NotBlank
     private String subject;
 
-    @NotBlank
     @ElementCollection
     private List<String> choices;
 
-    @NotBlank
     @ElementCollection
     private List<String> correctAnswers;
 }

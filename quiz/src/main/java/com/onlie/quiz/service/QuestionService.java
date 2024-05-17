@@ -43,7 +43,7 @@ public class QuestionService implements IQuestaoService {
 
          if (theQuestao.isPresent()){
              Question updatedQuestion = theQuestao.get();
-             updatedQuestion.setQuestao(question.getQuestao());
+             updatedQuestion.setQuestion(question.getQuestion());
              updatedQuestion.setChoices(question.getChoices());
              updatedQuestion.setCorrectAnswers(question.getCorrectAnswers());
              return repository.save(question);
