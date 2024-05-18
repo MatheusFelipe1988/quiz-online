@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-//@CrossOrigin("http://localhost:5173")
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 public class QuestionController {
@@ -27,7 +27,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = " um novo quiz criado for OK"),
             @ApiResponse(responseCode = "500", description = "Erro na criação do quiz")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/create-new-question")
     public ResponseEntity<Question> createQuestao(@Valid @RequestBody Question question){
         Question createdQuestion = questaoService.create(question);
@@ -39,7 +38,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "listando todos o questionario for OK"),
             @ApiResponse(responseCode = "500", description = "quando der erro na hora de listar os questionarios")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/all-questions")
     public ResponseEntity<List<Question>> getAllQuestions(){
         List<Question> questions = questaoService.getAllQuestions();
@@ -51,7 +49,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "Busca por ID for OK"),
             @ApiResponse(responseCode = "500", description = "erro causado por errar o ID")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/question/{id}")
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         Optional<Question> theQuestao = questaoService.getQuestionById(id);
@@ -67,7 +64,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "a atualização for bem sucedida"),
             @ApiResponse(responseCode = "500", description = "erro na hora de atualizar um quiz")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/question/{id}/update")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question)
             throws ChangeSetPersister.NotFoundException {
@@ -80,7 +76,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "a remoção for OK"),
             @ApiResponse(responseCode = "500", description = "Erro ao escolher o quiz")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @DeleteMapping("/question/{id}/delete")
     public ResponseEntity<Void> deleteQuestion (@PathVariable Long id){
         questaoService.deleteQuestion(id);
@@ -93,7 +88,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "listagem das escolhas for OK"),
             @ApiResponse(responseCode = "500", description = "falha ao listar escolhas")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/subjects")
     public ResponseEntity<List<String>> getAllSubjects() {
         List<String> subject = questaoService.getAllSubjects();
@@ -105,7 +99,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "listagem for bem sucedida"),
             @ApiResponse(responseCode = "500", description = "erro ao buscar o integer")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/quiz/fetch-question-for-user")
     public ResponseEntity<List<Question>> getQuestionsForUser(@RequestParam Integer numberOfQuestions, @RequestParam
                                                               String subject){
