@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const api = axios.create({
-	baseURL: "https://quiz-online-six.vercel.app"
+	baseURL: "https://quiz-online-six.vercel.app/"
 })
 
 export const createQuestion = async(quizQustion) =>{
