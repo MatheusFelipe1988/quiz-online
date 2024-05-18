@@ -19,7 +19,6 @@ import java.util.*;
 @RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 public class QuestionController {
-
     private final IQuestaoService questaoService;
 
 
