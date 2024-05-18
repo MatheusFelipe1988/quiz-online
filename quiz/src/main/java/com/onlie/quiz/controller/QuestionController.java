@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@CrossOrigin("https://quiz-online-six.vercel.app/")
+@CrossOrigin("*")
 @RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 public class QuestionController {
