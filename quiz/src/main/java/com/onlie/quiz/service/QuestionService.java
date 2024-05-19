@@ -34,15 +34,15 @@ public class QuestionService implements IQuestaoService {
 
     @Override
     public List<String> getAllSubjects() {
-        return repository.findDitinctSubject();
+        return repository.findDistinctSubject();
     }
 
     @Override
     public Question updateQuestion(Long id, Question question) throws ChangeSetPersister.NotFoundException {
-         Optional<Question> theQuestao = this.getQuestionById(id);
+         Optional<Question> theQuestion = this.getQuestionById(id);
 
-         if (theQuestao.isPresent()){
-             Question updatedQuestion = theQuestao.get();
+         if (theQuestion.isPresent()){
+             Question updatedQuestion = theQuestion.get();
              updatedQuestion.setQuestion(question.getQuestion());
              updatedQuestion.setChoices(question.getChoices());
              updatedQuestion.setCorrectAnswers(question.getCorrectAnswers());

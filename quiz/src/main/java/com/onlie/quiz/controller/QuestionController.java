@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@CrossOrigin("http://localhost/5173")
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("/api/quizzes")
 @RequiredArgsConstructor
 public class QuestionController {
+
     private final IQuestaoService questaoService;
 
 
@@ -27,7 +28,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = " um novo quiz criado for OK"),
             @ApiResponse(responseCode = "500", description = "Erro na criação do quiz")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping("/create-new-question")
     public ResponseEntity<Question> createQuestao(@Valid @RequestBody Question question){
         Question createdQuestion = questaoService.create(question);
@@ -40,7 +40,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "quando der erro na hora de listar os questionarios")
     })
     @GetMapping("/all-questions")
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     public ResponseEntity<List<Question>> getAllQuestions(){
         List<Question> questions = questaoService.getAllQuestions();
         return ResponseEntity.ok(questions);
@@ -51,7 +50,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "Busca por ID for OK"),
             @ApiResponse(responseCode = "500", description = "erro causado por errar o ID")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/question/{id}")
     public ResponseEntity<Question> getQuestionById(@PathVariable Long id) throws ChangeSetPersister.NotFoundException {
         Optional<Question> theQuestao = questaoService.getQuestionById(id);
@@ -67,7 +65,6 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "a atualização for bem sucedida"),
             @ApiResponse(responseCode = "500", description = "erro na hora de atualizar um quiz")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("/question/{id}/update")
     public ResponseEntity<Question> updateQuestion(@PathVariable Long id, @RequestBody Question question)
             throws ChangeSetPersister.NotFoundException {
@@ -87,17 +84,15 @@ public class QuestionController {
         return ResponseEntity.noContent().build();
     }
 
-
     @Operation(summary = "listando todas as escolhasr", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "listagem das escolhas for OK"),
             @ApiResponse(responseCode = "500", description = "falha ao listar escolhas")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/subjects")
     public ResponseEntity<List<String>> getAllSubjects() {
-        List<String> subject = questaoService.getAllSubjects();
-        return ResponseEntity.ok(subject);
+        List<String> subjects = questaoService.getAllSubjects();
+        return ResponseEntity.ok(subjects);
     }
 
     @Operation(summary = "listando quiz do usuario", method = "GET")
@@ -105,17 +100,16 @@ public class QuestionController {
             @ApiResponse(responseCode = "200", description = "listagem for bem sucedida"),
             @ApiResponse(responseCode = "500", description = "erro ao buscar o integer")
     })
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping("/quiz/fetch-question-for-user")
-    public ResponseEntity<List<Question>> getQuestionsForUser(@RequestParam Integer numberOfQuestions, @RequestParam
-                                                              String subject){
-        List<Question> allQuestions = questaoService.getQuestionForUser(numberOfQuestions, subject);
+    @GetMapping("/quiz/fetch-questions-for-user")
+    public ResponseEntity<List<Question>> getQuestionsForUser(
+            @RequestParam Integer numOfQuestions, @RequestParam String subject){
+        List<Question> allQuestions = questaoService.getQuestionForUser(numOfQuestions, subject);
 
         List<Question> mutableQuestions = new ArrayList<>(allQuestions);
         Collections.shuffle(mutableQuestions);
 
-        int avaliableQuestions = Math.min(numberOfQuestions, mutableQuestions.size());
-        List<Question> randomQuestions = mutableQuestions.subList(0, avaliableQuestions);
+        int availableQuestions = Math.min(numOfQuestions, mutableQuestions.size());
+        List<Question> randomQuestions = mutableQuestions.subList(0, availableQuestions);
         return ResponseEntity.ok(randomQuestions);
     }
 }
