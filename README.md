@@ -8,7 +8,7 @@
 
 ## Front-End
   
-  NodeJs para criar modelo pré pronto do ReactJs com Javascript utilizando Vite com o comando "npm vite@latest" para este propósito, no front fez necessário a construção de muitas rotas com React-Router-Dom afinal, para este quiz precisa de muitas telas como uma inicial, tela especial com duas rotas para criar um questionário e outra para gerenciar as já existentes no banco de dados, lógica para diversas situações de escolhas e selecionar qual quiz fazer e telas para definir a lista escolhida, suas questões e uma última de confirmação. Opções para o Admin editar ou deletar a questão criada e deletar todas feitas, para comunicar o back-end ao react, foi utilizado a depedencia Axios e criar a const URL assim chamando o localhost do MySQL e todos seus Mappings para cada um ter uma direção.
+  NodeJs para criar modelo pré pronto do ReactJs com Javascript utilizando Vite com o comando "npm vite@latest" para este propósito, no front fez necessário a construção de muitas rotas com React-Router-Dom afinal, para este quiz precisa de muitas telas como uma inicial, tela especial com duas rotas para criar um questionário e outra para gerenciar as já existentes no banco de dados, lógica para diversas situações de escolhas e selecionar qual quiz fazer e telas para definir a lista escolhida, suas questões e uma última de confirmação. Opções para o Admin editar ou deletar a questão criada e deletar todas feitas, para comunicar o back-end ao react, foi utilizado a depedencia Axios e criar a const URL assim chamando o localhost do MySQL e todos seus Mappings para cada um ter uma direção. usando o comando "npm run dev" do nodeJS, foi possivel visualizar toda a aplicação que foi desenvolvida em React e Java.
 
 #### Languagens Back-End
 
